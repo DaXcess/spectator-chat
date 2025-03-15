@@ -1,26 +1,11 @@
 package io.daxcess.spectatorchat;
 
-import de.maxhenkel.voicechat.api.Group;
-import de.maxhenkel.voicechat.api.VoicechatApi;
-import de.maxhenkel.voicechat.api.VoicechatPlugin;
-import de.maxhenkel.voicechat.api.VoicechatServerApi;
+import de.maxhenkel.voicechat.api.*;
 import de.maxhenkel.voicechat.api.events.EventRegistration;
-import de.maxhenkel.voicechat.api.events.PlayerConnectedEvent;
-import de.maxhenkel.voicechat.api.events.VoicechatServerStartedEvent;
-import org.jetbrains.annotations.Nullable;
-
-import java.util.UUID;
+import de.maxhenkel.voicechat.api.events.MicrophonePacketEvent;
+import net.minecraft.server.network.ServerPlayerEntity;
 
 public class SpectatorChatPlugin implements VoicechatPlugin {
-
-    @Nullable
-    public static VoicechatServerApi SERVER_API;
-    public static Group GLOBAL_GROUP;
-
-    @Override
-    public void initialize(VoicechatApi api) {
-
-    }
 
     @Override
     public String getPluginId() {
@@ -29,36 +14,70 @@ public class SpectatorChatPlugin implements VoicechatPlugin {
 
     @Override
     public void registerEvents(EventRegistration registration) {
-        registration.registerEvent(VoicechatServerStartedEvent.class, this::onServerStarted);
-        registration.registerEvent(PlayerConnectedEvent.class, this::onPlayerConnected);
+        registration.registerEvent(MicrophonePacketEvent.class, this::onMicrophonePacket);
     }
 
-    private void onServerStarted(VoicechatServerStartedEvent event) {
-        SERVER_API = event.getVoicechat();
-        GLOBAL_GROUP = event.getVoicechat().groupBuilder().setHidden(true).setName("Spectator Chat").setPersistent(true).build();
-    }
+    private void onMicrophonePacket(MicrophonePacketEvent event) {
+        if (event.getSenderConnection() == null)
+            return;
 
-    private void onPlayerConnected(PlayerConnectedEvent event) {
+        // Ignore if we have no reference to the server
         if (SpectatorChatMod.SERVER == null)
             return;
 
-        var uuid = event.getConnection().getPlayer().getUuid();
-        var player = SpectatorChatMod.SERVER.getPlayerManager().getPlayer(uuid);
-
-        if (player == null)
+        if (!(event.getSenderConnection().getPlayer().getPlayer() instanceof ServerPlayerEntity player))
             return;
 
-        changePlayerGlobalGroup(player.getUuid(), player.isSpectator());
-    }
-
-    public static void changePlayerGlobalGroup(UUID id, boolean join) {
-        if (SERVER_API == null)
+        // Only broadcast if we're a spectator
+        if (!player.isSpectator())
             return;
 
-        var connection = SERVER_API.getConnectionOf(id);
-        if (connection == null)
-            return;
+        event.cancel();
 
-        connection.setGroup(join ? GLOBAL_GROUP : null);
+        var group = event.getSenderConnection().getGroup();
+        var api = event.getVoicechat();
+
+        for (var serverPlayer : SpectatorChatMod.SERVER.getPlayerManager().getPlayerList()) {
+            // Don't send to self
+            if (serverPlayer.getUuid().equals(player.getUuid()))
+                continue;
+
+            var connection = api.getConnectionOf(serverPlayer.getUuid());
+            if (connection == null)
+                continue;
+
+            switch (SpectatorChatMod.CONFIG.groupMode.get()) {
+                case GROUP_ONLY: // Only send audio to group members that are also dead
+                    // Spectators only
+                    if (!serverPlayer.isSpectator())
+                        continue;
+
+                    // If we are not in a group, fall back to EXCLUDE behavior
+                    if (group == null)
+                        break;
+
+                    // Must be in the same group
+                    if (connection.getGroup() == null || !group.getId().equals(connection.getGroup().getId()))
+                        continue;
+
+                    break;
+
+                case INCLUDE: // Send audio to other spectators and to members of the same group (if in any)
+                    // Include group members
+                    if (!serverPlayer.isSpectator())
+                        if (group == null || connection.getGroup() == null || !group.getId().equals(connection.getGroup().getId()))
+                            continue;
+
+                    break;
+
+                case EXCLUDE: // Only send audio to dead players (groups are ignored)
+                    if (!serverPlayer.isSpectator())
+                        continue;
+
+                    break;
+            }
+
+            api.sendStaticSoundPacketTo(connection, event.getPacket().staticSoundPacketBuilder().build());
+        }
     }
 }

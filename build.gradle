@@ -17,6 +17,7 @@ repositories {
 	// See https://docs.gradle.org/current/userguide/declaring_repositories.html
 	// for more information about repositories.
 
+	maven { url = 'https://maven.shedaniel.me/' }
 	maven { url = 'https://maven.maxhenkel.de/repository/public' }
 	maven {
 		name = "modrinth"
@@ -51,6 +52,9 @@ dependencies {
 	// Simple Voice Chat
 	implementation "maven.modrinth:simple-voice-chat:fabric-${voicechat_version}"
 	implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
+
+	// Config API
+	implementation "de.maxhenkel.configbuilder:configbuilder:${configbuilder_version}"
 
 	modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${voicechat_version}"
 	modRuntimeOnly "maven.modrinth:modmenu:11.0.3"
