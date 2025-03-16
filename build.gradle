@@ -55,6 +55,7 @@ dependencies {
 
 	// Config API
 	implementation "de.maxhenkel.configbuilder:configbuilder:${configbuilder_version}"
+	shadow "de.maxhenkel.configbuilder:configbuilder:${configbuilder_version}"
 
 	modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${voicechat_version}"
 	modRuntimeOnly "maven.modrinth:modmenu:11.0.3"
