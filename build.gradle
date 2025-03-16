@@ -1,6 +1,8 @@
 plugins {
 	id 'fabric-loom' version '1.10-SNAPSHOT'
 	id 'maven-publish'
+
+	id 'com.github.johnrengelman.shadow' version '8.1.1'
 }
 
 version = project.mod_version
@@ -59,6 +61,16 @@ dependencies {
 
 	modRuntimeOnly "maven.modrinth:simple-voice-chat:fabric-${voicechat_version}"
 	modRuntimeOnly "maven.modrinth:modmenu:11.0.3"
+}
+
+shadowJar {
+	archiveClassifier = 'shadow-dev'
+	configurations = [project.configurations.shadow]
+}
+
+remapJar {
+	dependsOn shadowJar
+	inputFile = shadowJar.archiveFile.get()
 }
 
 processResources {

@@ -31,10 +31,10 @@ public class SpectatorChatMod implements ModInitializer {
 	}
 
 	private static Path getConfigFile() {
-		return getConfigFolder().resolve("spectator-chat.properties");
+		return getConfigFolder().resolve("voicechat-spectator.properties");
 	}
 
 	private static Path getConfigFolder() {
-		return Path.of(".").resolve("config");
+		return Path.of(".").resolve("config").resolve("voicechat");
 	}
 }
