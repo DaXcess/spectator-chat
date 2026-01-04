@@ -10,22 +10,37 @@ plugins {
 
 apply from: "https://raw.githubusercontent.com/henkelmax/mod-gradle-scripts/${mod_gradle_script_version}/taskutils.gradle"
 
-//tasks.register('publishModsToModrinth') {
-//
-//}
+tasks.register('publishModsToModrinth') {
+    group = 'global spectator voicechat'
+    doLast {
+        runGradleTasks(['clean'], ['neoforge:modrinth', 'fabric:modrinth', 'forge:modrinth'])
+    }
+}
 
-//tasks.register('publishPluginToModrinth') {
-//
-//}
+tasks.register('publishPluginToModrinth') {
+    group = 'global spectator voicechat'
+    doLast {
+        runGradleTasks(['clean'], ['paper:modrinth'])
+    }
+}
 
-//tasks.register('publishAllToModrinth') {
-//
-//}
+tasks.register('publishAllToModrinth') {
+    group = 'global spectator voicechat'
+    doLast {
+        runGradleTasks(['clean'], ['neoforge:modrinth', 'fabric:modrinth', 'forge:modrinth', 'paper:modrinth'])
+    }
+}
 
-//tasks.register('publishPluginsToHangar') {
-//
-//}
+tasks.register('publishPluginsToHangar') {
+    group = 'global spectator voicechat'
+    doLast {
+        runGradleTasks(['clean', ['paper:publishAllPublicationsToHangar']])
+    }
+}
 
-//tasks.register('publishEverything') {
-//
-//}
+tasks.register('publishEverything') {
+    group = 'global spectator voicechat'
+    doLast {
+        runGradleTasks(['clean'], ['neoforge:modrinth', 'fabric:modrinth', 'forge:modrinth', 'paper:modrinth', 'paper:publishAllPublicationsToHangar'])
+    }
+}

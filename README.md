@@ -2,9 +2,9 @@
 
 [![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
 
-An addon for the "Simple Voice Chat" mod that enhances the spectator experience in Minecraft.
+A small addon for [Simple Voice Chat](https://modrinth.com/plugin/simple-voice-chat) that adds a global spectator chat.
 
-This server-sided mod provides a dedicated communication channel for players in spectator mode. When you switch to spectator mode, you can freely communicate with all other spectators on the server, regardless of your distance, dimension, or location. The voice chat is non-positional, ensuring that you can always hear everyone clearly.
+This server-sided mod provides a dedicated communication channel for players in spectator mode. When you switch to spectator mode, you can freely communicate with all other spectators on the server, regardless of your distance, dimension, or location. The voice chat is non-positional, similar to the group functionality of Simple Voice Chat.
 
 ## Configuration
 
