@@ -11,7 +11,6 @@ processResources {
     filesMatching('**/*.toml') {
         expand 'version': mod_version,
                 'minecraft_version': minecraft_version,
-                'min_minecraft_version': min_minecraft_version,
                 'voicechat_api_version': voicechat_api_version
     }
 }

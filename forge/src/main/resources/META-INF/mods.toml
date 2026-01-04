@@ -24,7 +24,7 @@ side = "BOTH"
 [[dependencies.global_spectator_vc]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[${min_minecraft_version},)"
+versionRange = "[${minecraft_version},)"
 ordering = "NONE"
 side = "BOTH"
 

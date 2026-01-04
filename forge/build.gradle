@@ -12,7 +12,6 @@ processResources {
         expand 'mod_version': mod_version,
                 'forge_dependency': forge_dependency,
                 'minecraft_version': minecraft_version,
-                'min_minecraft_version': min_minecraft_version,
                 'voicechat_api_version': voicechat_api_version
     }
 }
