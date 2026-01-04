@@ -8,7 +8,6 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.permissions.PermissionLevel;
 import org.jetbrains.annotations.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -53,7 +52,7 @@ public class SpectatorChatFabric implements ModInitializer {
 
             @Override
             public boolean hasCommandAccess(CommandSourceStack ctx) {
-                return Permissions.check(ctx, Constants.PERMISSION_COMMAND, PermissionLevel.GAMEMASTERS);
+                return Permissions.check(ctx, Constants.PERMISSION_COMMAND, 2);
             }
         });
 

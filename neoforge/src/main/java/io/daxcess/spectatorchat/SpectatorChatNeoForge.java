@@ -4,7 +4,6 @@ import de.maxhenkel.voicechat.api.VoicechatConnection;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.server.permissions.Permissions;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -24,7 +23,7 @@ public class SpectatorChatNeoForge  {
             Constants.MOD_ID,
             "permission.command",
             PermissionTypes.BOOLEAN,
-            (player, uuid, contexts) -> player == null || player.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER)
+            (player, uuid, contexts) -> player == null || player.hasPermissions(2)
     );
 
     @Nullable
@@ -63,7 +62,7 @@ public class SpectatorChatNeoForge  {
                 if (ctx.getEntity() instanceof ServerPlayer player)
                     return PermissionAPI.getPermission(player, COMMAND_PERMISSION);
 
-                return ctx.permissions().hasPermission(Permissions.COMMANDS_GAMEMASTER);
+                return ctx.hasPermission(2);
             }
         });
     }

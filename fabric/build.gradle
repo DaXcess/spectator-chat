@@ -32,7 +32,7 @@ dependencies {
 
 	include(modImplementation("me.lucko:fabric-permissions-api:${fabric_permissions_api_version}"))
 
-	modRuntimeOnly "maven.modrinth:modmenu:17.0.0-beta.1"
+	modRuntimeOnly "maven.modrinth:modmenu:16.0.0-rc.2"
 }
 
 loom {
