@@ -17,7 +17,7 @@ tasks.register('publishModsToModrinth') {
     }
 }
 
-tasks.register('publishPluginToModrinth') {
+tasks.register('publishPluginsToModrinth') {
     group = 'global spectator voicechat'
     doLast {
         runGradleTasks(['clean'], ['paper:modrinth'])
@@ -34,7 +34,7 @@ tasks.register('publishAllToModrinth') {
 tasks.register('publishPluginsToHangar') {
     group = 'global spectator voicechat'
     doLast {
-        runGradleTasks(['clean', ['paper:publishAllPublicationsToHangar']])
+        runGradleTasks(['clean'], ['paper:publishAllPublicationsToHangar'])
     }
 }
 
