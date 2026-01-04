@@ -1,0 +1,13 @@
+{
+  "pack": {
+    "description": "global spectator voicechat resources",
+    "min_format": [
+      82,
+      0
+    ],
+    "max_format": [
+      999,
+      0
+    ]
+  }
+}

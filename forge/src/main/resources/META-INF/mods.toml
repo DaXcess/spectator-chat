@@ -1,0 +1,36 @@
+modLoader = "javafml"
+loaderVersion = "*"
+issueTrackerURL = "https://github.com/DaXcess/spectator-chat/issues"
+license = "MIT"
+
+[[mods]]
+modId = "global_spectator_vc"
+version = "${mod_version}"
+displayName = "Global Spectator Voicechat"
+displayURL = "https://github.com/DaXcess/spectator-chat"
+authors = "DaXcess"
+description = '''
+An addon for Simple Voice Chat that makes all spectators hear each other globally.
+'''
+logoFile = "icon.png"
+
+[[dependencies.global_spectator_vc]]
+modId = "forge"
+mandatory = true
+versionRange = "${forge_dependency}"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.global_spectator_vc]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[${min_minecraft_version},)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.global_spectator_vc]]
+modId = "voicechat_api"
+mandatory = true
+versionRange = "[${voicechat_api_version},)"
+ordering = "AFTER"
+side = "BOTH"

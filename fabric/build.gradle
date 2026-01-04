@@ -1,0 +1,52 @@
+apply plugin: 'fabric-loom'
+apply plugin: 'com.gradleup.shadow'
+apply plugin: 'com.modrinth.minotaur'
+
+apply from: "https://raw.githubusercontent.com/henkelmax/mod-gradle-scripts/${mod_gradle_script_version}/mod.gradle"
+
+processResources {
+	filesMatching('fabric.mod.json') {
+		expand 'mod_id': mod_id,
+				'java_version': java_version,
+				'version': mod_version,
+				'minecraft_version': minecraft_version,
+				'voicechat_api_version': voicechat_api_version
+	}
+}
+
+repositories {
+	exclusiveContent {
+		forRepository {
+			maven {
+				url = "https://api.modrinth.com/maven"
+			}
+		}
+		filter {
+			includeGroup "maven.modrinth"
+		}
+	}
+}
+
+dependencies {
+	modImplementation "maven.modrinth:simple-voice-chat:fabric-${minecraft_version}-${voicechat_mod_version}"
+
+	include(modImplementation("me.lucko:fabric-permissions-api:${fabric_permissions_api_version}"))
+
+	modRuntimeOnly "maven.modrinth:modmenu:17.0.0-beta.1"
+}
+
+loom {
+	mixin {
+		add("main")
+	}
+}
+
+tasks.register('generateJava', Copy) {
+	from project(':common').file('src/template/java')
+	into "${layout.buildDirectory.asFile.get()}/generated/java"
+	expand 'mod_id': mod_id
+}
+sourceSets.main.java {
+	srcDir "${layout.buildDirectory.asFile.get()}/generated/java"
+}
+compileJava.dependsOn generateJava

@@ -1,0 +1,32 @@
+{
+	"schemaVersion": 1,
+	"id": "${mod_id}",
+	"version": "${version}",
+	"name": "Global Spectator Voicechat",
+	"description": "An addon for Simple Voice Chat that makes all spectators hear each other globally.",
+	"authors": [
+		"DaXcess"
+	],
+	"contact": {
+		"homepage": "https://github.com/DaXcess",
+		"sources": "https://github.com/DaXcess/spectator-chat"
+	},
+	"license": "MIT",
+	"icon": "assets/spectator-chat/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+          "io.daxcess.spectatorchat.SpectatorChatFabric"
+		],
+		"voicechat": [
+			"io.daxcess.spectatorchat.SpectatorChatPlugin"
+		]
+	},
+	"mixins": [],
+	"depends": {
+		"fabricloader": "*",
+		"minecraft": ">=${minecraft_version}",
+		"java": ">=21",
+		"voicechat": ">=${minecraft_version}-${voicechat_api_version}"
+	}
+}

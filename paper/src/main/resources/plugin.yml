@@ -1,0 +1,13 @@
+name: ${mod_id}
+version: ${version}
+main: io.daxcess.spectatorchat.SpectatorChatPaper
+description: An addon for Simple Voice Chat that makes all spectators hear each other globally.
+author: DaXcess
+folia-supported: true
+api-version: 1.21
+depend:
+  - voicechat
+permissions:
+  ${mod_id}.permission.command:
+    default: op
+    description: Allow modifying mod configuration using commands

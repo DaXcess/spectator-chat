@@ -1,0 +1,53 @@
+plugins {
+    id 'java'
+}
+
+apply plugin: 'io.papermc.paperweight.userdev'
+apply plugin: 'com.gradleup.shadow'
+apply plugin: 'com.modrinth.minotaur'
+apply plugin: 'io.papermc.hangar-publish-plugin'
+apply plugin: 'xyz.jpenilla.run-paper'
+
+apply from: "https://raw.githubusercontent.com/henkelmax/mod-gradle-scripts/${mod_gradle_script_version}/mod.gradle"
+
+repositories {
+    mavenCentral()
+
+    maven {
+        url "https://maven.maxhenkel.de/repository/public"
+    }
+}
+
+dependencies {
+    implementation "de.maxhenkel.voicechat:voicechat-api:${voicechat_api_version}"
+}
+
+processResources {
+    filesMatching('plugin.yml') {
+        expand 'version': version,
+                'mod_id': mod_id
+    }
+}
+
+tasks {
+    runServer {
+        minecraftVersion(minecraft_version)
+        downloadPlugins {
+            modrinth("simple-voice-chat", "bukkit-${voicechat_mod_version}")
+            modrinth("luckperms", "v${luckperms_version}-bukkit")
+        }
+    }
+}
+
+tasks.register('generateJava', Copy) {
+    from project(':common').file('src/template/java')
+    into "${layout.buildDirectory.asFile.get()}/generated/java"
+    expand 'mod_id': mod_id
+}
+sourceSets.main.java {
+    srcDir "${layout.buildDirectory.asFile.get()}/generated/java"
+}
+compileJava.dependsOn generateJava
+
+build.dependsOn(shadowJar)
+runServer.dependsOn(build)
