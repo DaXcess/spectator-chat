@@ -1,7 +1,6 @@
 package io.daxcess.spectatorchat;
 
 import de.maxhenkel.voicechat.api.VoicechatConnection;
-import me.lucko.fabric.api.permissions.v0.Permissions;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -52,7 +51,7 @@ public class SpectatorChatFabric implements ModInitializer {
 
             @Override
             public boolean hasCommandAccess(CommandSourceStack ctx) {
-                return Permissions.check(ctx, Constants.PERMISSION_COMMAND, 2);
+                return ctx.hasPermission(2);
             }
         });
 

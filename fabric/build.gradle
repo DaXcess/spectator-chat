@@ -30,9 +30,7 @@ repositories {
 dependencies {
 	modImplementation "maven.modrinth:simple-voice-chat:fabric-${minecraft_version}-${voicechat_mod_version}"
 
-	include(modImplementation("me.lucko:fabric-permissions-api:${fabric_permissions_api_version}"))
-
-	modRuntimeOnly "maven.modrinth:modmenu:16.0.0-rc.2"
+	modRuntimeOnly "maven.modrinth:modmenu:${mod_menu_version}"
 }
 
 loom {
