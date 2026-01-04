@@ -8,7 +8,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.event.server.ServerStoppedEvent;
-import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.server.permission.PermissionAPI;
 import net.minecraftforge.server.permission.events.PermissionGatherEvent;
@@ -63,22 +63,22 @@ public class SpectatorChatForge {
     }
 
     @SubscribeEvent
-    private static void onServerStarting(ServerStartingEvent event) {
+    public void onServerStarting(ServerStartingEvent event) {
         SERVER = event.getServer();
     }
 
     @SubscribeEvent
-    private static void onServerStopped(ServerStoppedEvent event) {
+    public void onServerStopped(ServerStoppedEvent event) {
         SERVER = null;
     }
 
     @SubscribeEvent
-    private static void onRegisterCommands(RegisterCommandsEvent event) {
+    public void onRegisterCommands(RegisterCommandsEvent event) {
         SpectatorChatPlugin.onRegisterCommands(event.getDispatcher());
     }
 
     @SubscribeEvent
-    private static void onPermissionGatherNodes(PermissionGatherEvent.Nodes event) {
+    public void onPermissionGatherNodes(PermissionGatherEvent.Nodes event) {
         event.addNodes(COMMAND_PERMISSION);
     }
 }
