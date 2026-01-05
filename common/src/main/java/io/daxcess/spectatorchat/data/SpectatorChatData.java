@@ -1,28 +1,37 @@
 package io.daxcess.spectatorchat.data;
 
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
-import net.minecraft.world.level.saveddata.SavedDataType;
+import org.jetbrains.annotations.NotNull;
 
 public class SpectatorChatData extends SavedData {
     private GroupMode groupMode = GroupMode.GROUP_ONLY;
     private boolean enabled = true;
 
-    public static final SavedDataType<SpectatorChatData> ID = new SavedDataType<>(
-            "example",
-            SpectatorChatData::new,
-            RecordCodecBuilder.create(instance -> instance.group(
-                    Codec.INT.fieldOf("groupMode").forGetter(sd -> sd.groupMode.ordinal()),
-                    Codec.BOOL.fieldOf("enabled").forGetter(sd -> sd.enabled)
-            ).apply(instance, SpectatorChatData::new)),
-            DataFixTypes.LEVEL
-    );
-
     public static SpectatorChatData get(MinecraftServer server) {
-        return server.overworld().getDataStorage().computeIfAbsent(ID);
+        return server.overworld().getDataStorage().computeIfAbsent(new Factory<>(SpectatorChatData::create, SpectatorChatData::load, DataFixTypes.OPTIONS), "global-spectator-vc");
+    }
+
+    public static SpectatorChatData create() {
+        return new SpectatorChatData();
+    }
+
+    public static SpectatorChatData load(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+        var mode = tag.getInt("groupMode");
+        var enabled = tag.getBoolean("enabled");
+
+        return new SpectatorChatData(mode, enabled);
+    }
+
+    @Override
+    public @NotNull CompoundTag save(@NotNull CompoundTag tag, HolderLookup.@NotNull Provider registries) {
+        tag.putInt("groupMode", groupMode.ordinal());
+        tag.putBoolean("enabled", enabled);
+
+        return tag;
     }
 
     private SpectatorChatData() {}
