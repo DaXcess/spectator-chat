@@ -54,8 +54,8 @@ public class SpectatorChatPlugin implements VoicechatPlugin {
         for (var serverPlayer : service.getServerPlayers())
         {
             // Don't send to self
-//            if (serverPlayer.getUUID().equals(player.getUUID()))
-//                continue;
+            if (serverPlayer.getUUID().equals(player.getUUID()))
+                continue;
 
             // Ignore missing connections (e.g. mod not installed)
             var connection = api.getConnectionOf(serverPlayer.getUUID());
