@@ -12,7 +12,7 @@ public class SpectatorChatData extends SavedData {
     private boolean enabled = true;
 
     public static final SavedDataType<SpectatorChatData> ID = new SavedDataType<>(
-            "example",
+            "global-spectator-vc",
             SpectatorChatData::new,
             RecordCodecBuilder.create(instance -> instance.group(
                     Codec.INT.fieldOf("groupMode").forGetter(sd -> sd.groupMode.ordinal()),
